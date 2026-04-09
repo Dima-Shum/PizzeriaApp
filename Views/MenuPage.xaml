@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:PizzeriaApp.Models"
+             xmlns:viewmodels="clr-namespace:PizzeriaApp.ViewModels"
+             xmlns:converters="clr-namespace:PizzeriaApp.Converters"
+             x:Class="PizzeriaApp.Views.MenuPage"
+             Title="Наше меню">
+
+    <Shell.TitleView>
+        <Grid>
+            <Label Text="Наше меню" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   TextColor="#D32F2F"
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"/>
+            <Button Text="🛒" 
+                    FontSize="20"
+                    BackgroundColor="Transparent" 
+                    TextColor="#D32F2F"
+                    HorizontalOptions="End" 
+                    VerticalOptions="Center"
+                    Command="{Binding GoToCartCommand}"/>
+            <!-- Badge для отображения количества товаров в корзине -->
+            <Frame x:Name="CartBadge" 
+                   BackgroundColor="#FF5722" 
+                   CornerRadius="10" 
+                   HeightRequest="20" 
+                   WidthRequest="20" 
+                   Padding="0"
+                   HorizontalOptions="End" 
+                   VerticalOptions="Start"
+                   Margin="0, -5, 5, 0"
+                   IsVisible="{Binding CartItemCount, Converter={StaticResource IntToBoolConverter}}">
+                <Label Text="{Binding CartItemCount}" 
+                       TextColor="White" 
+                       FontSize="12" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"/>
+            </Frame>
+        </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntToBoolConverter x:Key="IntToBoolConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*" Padding="15">
+        <!-- Заголовок -->
+        <Label Text="Популярные пиццы" 
+               FontSize="18" 
+               FontAttributes="Bold" 
+               TextColor="#333"
+               Margin="0,0,0,10"/>
+
+        <!-- Список пицц -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Pizzas}"
+                        SelectionMode="None"
+                        VerticalOptions="FillAndExpand">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Pizza">
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="12" 
+                           Padding="12"
+                           HasShadow="True"
+                           BorderColor="#E0E0E0">
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+
+                            <!-- Название пиццы -->
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding Name}" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold"
+                                   TextColor="#333"
+                                   Margin="0,0,0,5"/>
+
+                            <!-- Краткое описание -->
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="{Binding Description}" 
+                                   FontSize="14"
+                                   TextColor="#666"
+                                   Margin="0,0,0,10"
+                                   LineBreakMode="WordWrap"/>
+
+                            <!-- Базовая цена -->
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#D32F2F">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding BasePrice, StringFormat='{0:N0}'}"/>
+                                        <Span Text=" ₽"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!-- Изображение -->
+                            <Image Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
+                                   Source="{Binding ImageUrl}"
+                                   WidthRequest="80"
+                                   HeightRequest="80"
+                                   Aspect="AspectFill"
+                                   Margin="10,0,0,0"/>
+
+                            <!-- Кнопка "Выбрать" -->
+                            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                    Text="Выбрать"
+                                    BackgroundColor="#FF5722"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    CornerRadius="8"
+                                    HeightRequest="40"
+                                    Margin="0,10,0,0"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MenuViewModel}}, Path=SelectPizzaCommand}"
+                                    CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <!-- Состояние при отсутствии данных -->
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="20" Spacing="10">
+                    <Label Text="🍕" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="Меню временно недоступно" 
+                           FontSize="16" 
+                           TextColor="#666"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PizzeriaApp.Views.CheckoutPage"
+             Title="Оформление заказа">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Заголовок -->
+            <Label Text="Данные для доставки" 
+                   FontSize="20" 
+                   FontAttributes="Bold"
+                   TextColor="#333"
+                   Margin="0,0,0,10"/>
+
+            <!-- Форма заказа -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="12" 
+                   Padding="15"
+                   HasShadow="False"
+                   BorderColor="#E0E0E0">
+                <VerticalStackLayout Spacing="15">
+
+                    <!-- Имя клиента -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Имя" 
+                               FontSize="14" 
+                               TextColor="#666"/>
+                        <Entry Placeholder="Введите ваше имя"
+                               Text="{Binding CustomerName}"
+                               BackgroundColor="#F5F5F5"
+                               HeightRequest="45"/>
+                        <Label Text="{Binding NameError}" 
+                               FontSize="12" 
+                               TextColor="#D32F2F"
+                               IsVisible="{Binding ShowNameError}"/>
+                    </VerticalStackLayout>
+
+                    <!-- Телефон -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Телефон" 
+                               FontSize="14" 
+                               TextColor="#666"/>
+                        <Entry Placeholder="+7 (XXX) XXX-XX-XX"
+                               Text="{Binding CustomerPhone}"
+                               Keyboard="Telephone"
+                               BackgroundColor="#F5F5F5"
+                               HeightRequest="45"/>
+                        <Label Text="{Binding PhoneError}" 
+                               FontSize="12" 
+                               TextColor="#D32F2F"
+                               IsVisible="{Binding ShowPhoneError}"/>
+                    </VerticalStackLayout>
+
+                    <!-- Адрес доставки -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Адрес доставки" 
+                               FontSize="14" 
+                               TextColor="#666"/>
+                        <Editor Placeholder="Введите адрес доставки"
+                                Text="{Binding DeliveryAddress}"
+                                BackgroundColor="#F5F5F5"
+                                HeightRequest="80"
+                                AutoSize="TextChanges"/>
+                        <Label Text="{Binding AddressError}" 
+                               FontSize="12" 
+                               TextColor="#D32F2F"
+                               IsVisible="{Binding ShowAddressError}"/>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Информация о заказе -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="12" 
+                   Padding="15"
+                   HasShadow="False"
+                   BorderColor="#E0E0E0">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Ваш заказ" 
+                           FontSize="16" 
+                           FontAttributes="Bold"
+                           TextColor="#333"/>
+
+                    <!-- Список товаров -->
+                    <CollectionView ItemsSource="{Binding OrderItems}"
+                                    SelectionMode="None"
+                                    HeightRequest="150">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,Auto" Padding="0,5">
+                                    <Label Text="{Binding Pizza.Name}" 
+                                           FontSize="14" 
+                                           TextColor="#333"/>
+                                    <Label Grid.Column="1" 
+                                           FontSize="14" 
+                                           TextColor="#D32F2F">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding TotalPrice, StringFormat='{0:N0}'}"/>
+                                                <Span Text=" ₽"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <BoxView Color="#E0E0E0" HeightRequest="1" Margin="0,5"/>
+
+                    <!-- Итого -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Итого к оплате:" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               TextColor="#333"/>
+
+                        <Label Grid.Column="1" 
+                               FontSize="20" 
+                               FontAttributes="Bold"
+                               TextColor="#D32F2F">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding TotalAmount, StringFormat='{0:N0}'}"/>
+                                    <Span Text=" ₽"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Кнопка отправки заказа -->
+            <Button Text="Отправить заказ"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    CornerRadius="12"
+                    HeightRequest="50"
+                    Command="{Binding SubmitOrderCommand}"
+                    IsEnabled="{Binding IsFormValid}"
+                    Margin="0,10,0,0"/>
+
+            <!-- Кнопка возврата -->
+            <Button Text="Вернуться в корзину"
+                    BackgroundColor="Transparent"
+                    TextColor="#666"
+                    BorderColor="#E0E0E0"
+                    BorderWidth="1"
+                    CornerRadius="12"
+                    HeightRequest="45"
+                    Command="{Binding GoBackCommand}"
+                    Margin="0,5,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

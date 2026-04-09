@@ -1,0 +1,44 @@
+[
+    {
+        "Id": 1,
+        "Name": "Маргарита",
+        "Description": "Томатный соус, моцарелла, базилик, оливковое масло",
+        "BasePrice": 350,
+        "ImageUrl": "margherita.png"
+    },
+    {
+        "Id": 2,
+        "Name": "Пепперони",
+        "Description": "Томатный соус, моцарелла, пепперони, орегано",
+        "BasePrice": 420,
+        "ImageUrl": "pepperoni.png"
+    },
+    {
+        "Id": 3,
+        "Name": "Четыре сыра",
+        "Description": "Моцарелла, горгонзола, пармезан, фонталь",
+        "BasePrice": 480,
+        "ImageUrl": "four_cheese.png"
+    },
+    {
+        "Id": 4,
+        "Name": "Гавайская",
+        "Description": "Томатный соус, моцарелла, курица, ананас",
+        "BasePrice": 450,
+        "ImageUrl": "hawaiian.png"
+    },
+    {
+        "Id": 5,
+        "Name": "Диабло",
+        "Description": "Томатный соус, моцарелла, пепперони, халапеньо, перец чили",
+        "BasePrice": 490,
+        "ImageUrl": "diablo.png"
+    },
+    {
+        "Id": 6,
+        "Name": "Вегетарианская",
+        "Description": "Томатный соус, моцарелла, грибы, оливки, томаты черри, базилик",
+        "BasePrice": 410,
+        "ImageUrl": "vegetarian.png"
+    }
+]
